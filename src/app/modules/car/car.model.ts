@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { TCar } from "./car.interface";
-import AppError from "../../errors/AppError";
 
 const carSchema = new Schema<TCar>(
   {

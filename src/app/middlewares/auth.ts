@@ -8,22 +8,22 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
   return catchAsync(async (req, res, next) => {
     const header = req.headers.authorization;
-    console.log("header", header);
+    // console.log("header", header);
     if (header && header.startsWith("Bearer")) {
       const token = header.split(" ")[1];
-      console.log("token", token);
+      // console.log("token", token);
 
-      const verifiedToken = jwt.verify(
-        token as string,
+      const decoded = jwt.verify(
+        token,
         config.jwt_access_secret as string
-      );
-      const { role, email } = verifiedToken as JwtPayload;
+      ) as JwtPayload;
+
+      const { email, role } = decoded;
 
       const user = await User.findOne({ email });
       if (!user) {
-        throw new AppError(401, "User not Found");
+        throw new AppError(401, "User Not Found");
       }
-
       if (!requiredRoles.includes(role)) {
         res.status(401).json({
           success: false,
@@ -31,6 +31,7 @@ const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
           message: "You have no access to this route",
         });
       }
+      req.user = decoded as JwtPayload;
     } else {
       res.status(401).json({
         success: false,

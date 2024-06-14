@@ -11,8 +11,10 @@ router.post(
   "/",
   validateRequest(carValidations.createCarValidation),
   auth(USER_Role.admin),
+
   CarControllers.createCar
 );
+
 //get all car route
 router.get("/", CarControllers.getAllCar);
 //get single get car route
