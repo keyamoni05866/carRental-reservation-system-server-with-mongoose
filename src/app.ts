@@ -14,11 +14,10 @@ app.use(cors());
 
 app.use("/api", router);
 
-app.use(globalErrorHandler);
-app.use(notFoundRoute);
-
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Car Rental Reservation Management System");
 });
 
+app.use(globalErrorHandler);
+app.use(notFoundRoute);
 export default app;
