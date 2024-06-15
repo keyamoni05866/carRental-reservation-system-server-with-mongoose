@@ -8,3 +8,8 @@ export type TBooking = {
   carId: Types.ObjectId;
   totalCost: number;
 };
+
+export type TReturn = {
+  bookingId: Types.ObjectId;
+  endTime: string;
+};

@@ -13,7 +13,7 @@ router.post(
 router.post(
   "/signin",
   validateRequest(signInValidation),
-  AuthControllers.signin
+  AuthControllers.signIn
 );
 
 export const AuthRoutes = router;

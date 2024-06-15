@@ -1,11 +1,9 @@
 import { JwtPayload } from "jsonwebtoken";
-// import { TUser } from "../user/user.interface";
+
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { User } from "../user/user.model";
 import { Car } from "../car/car.model";
-import AppError from "../../errors/AppError";
-import { ObjectId } from "mongoose";
 
 const createBookingIntoDB = async (
   payload: TBooking,
