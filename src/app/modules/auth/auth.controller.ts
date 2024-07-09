@@ -1,5 +1,6 @@
 import config from "../../config";
-import { catchAsync } from "../utils/catchAsync";
+import { catchAsync } from "../../utils/catchAsync";
+
 import { AuthServices } from "./auth.service";
 
 const signup = catchAsync(async (req, res) => {

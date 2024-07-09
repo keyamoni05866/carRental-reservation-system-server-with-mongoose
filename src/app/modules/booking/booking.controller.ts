@@ -1,4 +1,4 @@
-import { catchAsync } from "../utils/catchAsync";
+import { catchAsync } from "../../utils/catchAsync";
 import { BookingServices } from "./booking.service";
 
 const createBooking = catchAsync(async (req, res) => {
