@@ -6,8 +6,13 @@ const userValidations = z.object({
     email: z.string().email("Invalid email address"),
     role: z.enum(["user", "admin"]),
     password: z.string({ required_error: "Password is required" }),
-    phone: z.string(),
-    address: z.string(),
+
+    termsConditionAccepted: z.boolean({
+      required_error: "Terms Accepted Required",
+    }),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+    isBlocked: z.boolean().optional().default(false),
   }),
 });
 

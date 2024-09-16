@@ -1,10 +1,8 @@
-import mongoose, { ObjectId } from "mongoose";
 import AppError from "../../errors/AppError";
 import { TReturn } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.model";
 import { TCar } from "./car.interface";
 import { Car } from "./car.model";
-// import { convertTimeInDate } from "./car.util";
 
 //creating car into db
 const createCarIntoDB = async (payload: TCar) => {

@@ -27,12 +27,20 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
+
+    termsConditionAccepted: {
+      type: Boolean,
+      required: true,
+    },
     phone: {
       type: String,
-      required: true,
     },
     address: {
       type: String,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -52,11 +60,11 @@ userSchema.pre("save", async function (next) {
 });
 
 //this is for password hiding
-userSchema.methods.toJSON = function () {
-  const user = this;
-  const userObject = user.toObject();
-  delete userObject.password;
-  return userObject;
-};
+// userSchema.methods.toJSON = function () {
+//   const user = this;
+//   const userObject = user.toObject();
+//   delete userObject.password;
+//   return userObject;
+// };
 
 export const User = model<TUser>("User", userSchema);

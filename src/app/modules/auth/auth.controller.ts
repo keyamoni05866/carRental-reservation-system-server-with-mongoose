@@ -10,7 +10,7 @@ const signup = catchAsync(async (req, res) => {
     res.status(201).json({
       success: true,
       statusCode: 201,
-      message: "User registered successfully",
+      message: "Registration Successful",
       data: result,
     });
   } else {
@@ -35,8 +35,7 @@ const signIn = catchAsync(async (req, res) => {
       success: true,
       statusCode: 200,
       message: "User logged in successfully",
-      data: user,
-      token,
+      data: { user, token },
     });
   } else {
     res.status(404).json({

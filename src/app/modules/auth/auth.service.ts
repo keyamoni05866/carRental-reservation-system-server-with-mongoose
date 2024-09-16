@@ -8,9 +8,7 @@ import jwt from "jsonwebtoken";
 //sign up for user and admin
 const signup = async (payload: TUser) => {
   //if user exists
-  const user = await User.findOne({ email: payload.email }).select({
-    password: 0,
-  });
+  const user = await User.findOne({ email: payload.email });
   if (user) {
     throw new AppError(400, "The User is already Exists.");
   }
