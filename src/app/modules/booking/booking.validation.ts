@@ -1,13 +1,42 @@
 import { z } from "zod";
 
+const timeSchema = z.string().refine(
+  (time) => {
+    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
+    return regex.test(time);
+  },
+  { message: "Invalid time format expected HH.MM  in 24 hour format" }
+);
+
+export const BookingFormSchema = z.object({
+  nidOrPassport: z.string(),
+  drivingLicense: z.string(),
+  cardNumber: z.string(),
+  cardExpirationdate: z.string(),
+  cvv: z.string(),
+  startTime: timeSchema,
+});
+
 const bookingValidationSchema = z.object({
   body: z.object({
-    date: z.string({ required_error: "Date is required" }),
-    startTime: z.string({ required_error: "startTime is required" }),
-    endTime: z.string().optional(),
     user: z.string().optional(),
     carId: z.string(),
-    totalCost: z.number().optional().default(0),
+    endTime: timeSchema.optional(),
+    totalCost: z.number().optional(),
+    isBooked: z.enum(["unconfirmed", "confirmed"]).optional(),
+    payment: BookingFormSchema,
+  }),
+});
+const updateBookingValidationSchema = z.object({
+  body: z.object({
+    user: z.string().optional(),
+    carId: z.string(),
+    date: z.string().optional(),
+    startTime: timeSchema.optional(),
+    endTime: timeSchema.optional(),
+    totalCost: z.number().optional(),
+    isBooked: z.enum(["unconfirmed", "confirmed"]).optional(),
+    payment: BookingFormSchema,
   }),
 });
 

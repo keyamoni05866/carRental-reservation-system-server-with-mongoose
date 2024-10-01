@@ -1,13 +1,14 @@
 import express from "express";
 import { AuthControllers } from "./auth.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
-import userValidations from "../user/user.validation";
+
 import signInValidation from "./auth.validation";
+import { userValidations } from "../user/user.validation";
 const router = express.Router();
 
 router.post(
   "/signup",
-  validateRequest(userValidations),
+  validateRequest(userValidations.createUserValidations),
   AuthControllers.signup
 );
 router.post(

@@ -1,14 +1,14 @@
 import { catchAsync } from "../../utils/catchAsync";
-import { BookingServices } from "./booking.service";
+import { UserServices } from "./user.service";
 
-const createBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.createBookingIntoDB(req.body, req.user);
-
+//creating a User by admin
+const createAUser = catchAsync(async (req, res) => {
+  const result = await UserServices.createAUser(req.body);
   if (result) {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Car Booked Successfully",
+      message: `${result.role} Created Successfully`,
       data: result,
     });
   } else {
@@ -21,13 +21,14 @@ const createBooking = catchAsync(async (req, res) => {
   }
 });
 
-const getAllBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.getAllBookedFromDB();
+//get All Car
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUserFromDB();
   if (result) {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Bookings retrieved successfully",
+      message: "Users retrieved successfully",
       data: result,
     });
   } else {
@@ -39,36 +40,14 @@ const getAllBooking = catchAsync(async (req, res) => {
     });
   }
 });
-
-const getUserBooking = catchAsync(async (req, res) => {
-  const result = await BookingServices.getUserBooking(req.user);
-
-  if (result) {
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "My Bookings retrieved successfully",
-      data: result,
-    });
-  } else {
-    res.status(404).json({
-      success: true,
-      statusCode: 404,
-      message: "No Data Found",
-      data: [],
-    });
-  }
-});
-
-const cancelBooking = catchAsync(async (req, res) => {
+const updateSingleUser = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await BookingServices.cancelBookingOrDeleteBooking(id);
-
+  const result = await UserServices.updateSingleUserFromDB(id, req.body);
   if (result) {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "Booking Canceled Successfully",
+      message: "Updated Successfully",
       data: result,
     });
   } else {
@@ -81,9 +60,29 @@ const cancelBooking = catchAsync(async (req, res) => {
   }
 });
 
-export const BookingControllers = {
-  createBooking,
-  getAllBooking,
-  getUserBooking,
-  cancelBooking,
+const deleteUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.deleteAUser(id);
+  if (result) {
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "User Deleted successfully",
+      data: result,
+    });
+  } else {
+    res.status(404).json({
+      success: true,
+      statusCode: 404,
+      message: "No Data Found",
+      data: [],
+    });
+  }
+});
+
+export const UserControllers = {
+  createAUser,
+  getAllUser,
+  updateSingleUser,
+  deleteUser,
 };

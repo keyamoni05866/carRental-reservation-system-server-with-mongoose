@@ -13,11 +13,15 @@ const createBookingIntoDB = async (
   //   console.log(userEmail);
   const user = await User.findOne({ email });
   const { carId } = payload;
-  const carStatus = await Car.findByIdAndUpdate(carId, {
-    $set: {
-      status: "unavailable",
+  const carStatus = await Car.findByIdAndUpdate(
+    carId,
+    {
+      $set: {
+        status: "unavailable",
+      },
     },
-  });
+    { new: true, runValidators: true }
+  );
   await carStatus?.save();
 
   const result = (
@@ -47,8 +51,15 @@ const getUserBooking = async (authorizedUser: JwtPayload) => {
   return result;
 };
 
+// delete User booking
+const cancelBookingOrDeleteBooking = async (id: string) => {
+  const result = await Booking.findByIdAndDelete({ _id: id });
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookedFromDB,
   getUserBooking,
+  cancelBookingOrDeleteBooking,
 };

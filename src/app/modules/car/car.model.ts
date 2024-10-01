@@ -12,7 +12,6 @@ const carSchema = new Schema<TCar>(
     description: {
       type: String,
       required: true,
-      trim: true,
     },
     color: {
       type: String,
@@ -20,8 +19,25 @@ const carSchema = new Schema<TCar>(
       trim: true,
     },
     isElectric: {
-      type: Boolean,
+      type: String,
+      enum: ["Yes", "No"],
       required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    model: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: String,
+      required: true,
+    },
+    carType: {
+      type: String,
+      enum: ["SUV", "Sedan", "Hatchback", "Convertible", "Coupe"],
     },
     status: {
       type: String,
@@ -32,11 +48,15 @@ const carSchema = new Schema<TCar>(
       type: [String],
       required: true,
     },
+    AdditionalFeatures: {
+      type: [String],
+      required: true,
+    },
     pricePerHour: {
       type: Number,
       required: true,
     },
-    isDeleted: {
+    isFeatured: {
       type: Boolean,
       default: false,
     },

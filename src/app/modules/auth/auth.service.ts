@@ -22,7 +22,6 @@ const signin = async (payload: TSignInUser) => {
   if (!user) {
     throw new AppError(401, "User doesn't Exists");
   }
-
   //password matching
 
   const passwordMatched = await isPasswordMatched(

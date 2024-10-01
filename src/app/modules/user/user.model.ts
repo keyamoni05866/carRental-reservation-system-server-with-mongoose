@@ -38,9 +38,9 @@ const userSchema = new Schema<TUser>(
     address: {
       type: String,
     },
-    isBlocked: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: "active",
     },
   },
   {

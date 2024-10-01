@@ -1,21 +1,18 @@
 import { Schema, model } from "mongoose";
 import mongoose from "mongoose";
-import { TBooking } from "./booking.interface";
+import { TBooking, TBookingForm } from "./booking.interface";
+
+const bookingFormSchema = new Schema<TBookingForm>({
+  nidOrPassport: { type: String, required: true },
+  drivingLicense: { type: String, required: true },
+  cardNumber: { type: String, required: true },
+  cardExpirationdate: { type: String, required: true },
+  cvv: { type: String, required: true },
+  startTime: { type: String, required: true },
+});
 
 const bookingSchema = new Schema<TBooking>(
   {
-    date: {
-      type: String,
-      required: true,
-    },
-    startTime: {
-      type: String,
-      required: true,
-    },
-    endTime: {
-      type: String,
-      default: null,
-    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -26,10 +23,30 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
       unique: true,
     },
+    endTime: {
+      type: String,
+      default: null,
+    },
     totalCost: {
       type: Number,
       default: 0,
     },
+    status: {
+      type: String,
+      default: "pending",
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid"],
+      default: "pending",
+    },
+    transactionId: { type: String },
+    isBooked: {
+      type: String,
+      enum: ["unconfirmed", "confirmed"],
+      default: "unconfirmed",
+    },
+    payment: { type: bookingFormSchema },
   },
   {
     timestamps: true,

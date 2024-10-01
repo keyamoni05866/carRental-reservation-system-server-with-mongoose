@@ -8,7 +8,7 @@ const router = express.Router();
 
 //creating Car Route
 router.post(
-  "/",
+  "/create-car",
   validateRequest(carValidations.createCarValidation),
   auth(USER_Role.admin),
 
@@ -17,6 +17,11 @@ router.post(
 
 //get all car route
 router.get("/", CarControllers.getAllCar);
+router.get("/featuredCars", CarControllers.getFeaturedCar);
+router.get(
+  "/availableCarsForBooking",
+  CarControllers.getAllAvailableCarForBooking
+);
 //get single get car route
 router.get("/:id", CarControllers.getSingleCar);
 
@@ -24,8 +29,8 @@ router.get("/:id", CarControllers.getSingleCar);
 router.put("/return", auth(USER_Role.admin), CarControllers.returnCar);
 
 //update car by id route
-router.put(
-  "/:id",
+router.patch(
+  "/update-car/:id",
   validateRequest(carValidations.updateCarValidation),
   auth(USER_Role.admin),
   CarControllers.updateACar
