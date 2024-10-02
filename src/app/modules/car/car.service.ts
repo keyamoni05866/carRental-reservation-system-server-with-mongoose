@@ -1,6 +1,6 @@
 import AppError from "../../errors/AppError";
-import { TReturn } from "../booking/booking.interface";
-import { Booking } from "../booking/booking.model";
+// import { TReturn } from "../booking/booking.interface";
+// import { Booking } from "../booking/booking.model";
 import { TCar, TCarQuery, TCarQueryForBookingPage } from "./car.interface";
 import { Car } from "./car.model";
 
@@ -91,50 +91,50 @@ const deleteACar = async (id: string) => {
   return result;
 };
 
-const returnTheCar = async (payload: TReturn) => {
-  const { bookingId, endTime } = payload;
-  const bookingInfo = await Booking.findById(bookingId);
+// const returnTheCar = async (payload: TReturn) => {
+//   const { bookingId, endTime } = payload;
+//   const bookingInfo = await Booking.findById(bookingId);
 
-  // console.log(bookingInfo?.carId);
-  if (bookingInfo?._id != bookingId) {
-    throw new AppError(400, "Booking  not found");
-  }
-  // const carId = bookingInfo?.carId;
-  const carInfo = await Car.findById(bookingInfo.carId);
-  const bookingEndTime = new Date(`1970-01-01T${bookingInfo?.endTime}`);
-  const bookingStartTime = new Date(`1970-01-01T${bookingInfo?.startTime}`);
-  const updateStatus = await Car.findByIdAndUpdate(carInfo?._id, {
-    $set: {
-      status: "available",
-    },
-  });
-  await updateStatus?.save();
+//   // console.log(bookingInfo?.carId);
+//   if (bookingInfo?._id != bookingId) {
+//     throw new AppError(400, "Booking  not found");
+//   }
+//   // const carId = bookingInfo?.carId;
+//   const carInfo = await Car.findById(bookingInfo?.carId);
+//   const bookingEndTime = new Date(`1970-01-01T${bookingInfo?.endTime}`);
+//   const bookingStartTime = new Date(`1970-01-01T${bookingInfo?.startTime}`);
+//   const updateStatus = await Car.findByIdAndUpdate(carInfo?._id, {
+//     $set: {
+//       status: "available",
+//     },
+//   });
+//   await updateStatus?.save();
 
-  const updateEndTime = await Booking.findByIdAndUpdate(bookingId, {
-    endTime: endTime,
-  });
-  await updateEndTime?.save();
-  const pricePerHour = carInfo?.pricePerHour;
-  // console.log(pricePerHour);
-  if (pricePerHour !== undefined) {
-    const timeDurationInMinutes =
-      bookingEndTime.getTime() - bookingStartTime.getTime();
-    const timeDurationInHours = timeDurationInMinutes / (1000 * 60 * 60);
+//   const updateEndTime = await Booking.findByIdAndUpdate(bookingId, {
+//     endTime: endTime,
+//   });
+//   await updateEndTime?.save();
+//   const pricePerHour = carInfo?.pricePerHour;
+//   // console.log(pricePerHour);
+//   if (pricePerHour !== undefined) {
+//     const timeDurationInMinutes =
+//       bookingEndTime.getTime() - bookingStartTime.getTime();
+//     const timeDurationInHours = timeDurationInMinutes / (1000 * 60 * 60);
 
-    const totalCost: number = timeDurationInHours * Number(pricePerHour);
-    // console.log(totalCost);
-    const ultimateResult = Number(totalCost);
-    console.log(ultimateResult);
-    const result = await Booking.findByIdAndUpdate(
-      bookingId,
+//     const totalCost: number = timeDurationInHours * Number(pricePerHour);
+//     // console.log(totalCost);
+//     const ultimateResult = Number(totalCost);
+//     console.log(ultimateResult);
+//     const result = await Booking.findByIdAndUpdate(
+//       bookingId,
 
-      { totalCost: totalCost },
+//       { totalCost: totalCost },
 
-      { new: true }
-    );
-    return result;
-  }
-};
+//       { new: true }
+//     );
+//     return result;
+//   }
+// };
 export const CarServices = {
   createCarIntoDB,
   getAllCarFromDB,
@@ -143,5 +143,4 @@ export const CarServices = {
   getSingleCarFromDB,
   updateACarFromDB,
   deleteACar,
-  returnTheCar,
 };

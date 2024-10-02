@@ -51,9 +51,65 @@ const getUserBooking = async (authorizedUser: JwtPayload) => {
   return result;
 };
 
-// delete User booking
+// delete Or Cancel  User booking ---from user side
 const cancelBookingOrDeleteBooking = async (id: string) => {
+  const booking = await Booking.findById({ _id: id });
+  // console.log(booking?.carId);
+  const carId = booking?.carId;
+  const carStatus = await Car.findByIdAndUpdate(
+    carId,
+    {
+      $set: {
+        status: "available",
+      },
+    },
+    { new: true, runValidators: true }
+  );
+  await carStatus?.save();
   const result = await Booking.findByIdAndDelete({ _id: id });
+  return result;
+};
+
+// cancel A Booking From Admin side
+const cancelABookingFromAdminSideDB = async (id: string) => {
+  const booking = await Booking.findById({ _id: id });
+  // console.log(booking?.carId);
+  const carId = booking?.carId;
+  const carStatus = await Car.findByIdAndUpdate(
+    carId,
+    {
+      $set: {
+        status: "available",
+      },
+    },
+    { new: true, runValidators: true }
+  );
+  await carStatus?.save();
+  // console.log(carStatus);
+
+  const result = Booking.findByIdAndUpdate(
+    { _id: id },
+    { isBooked: "unconfirmed", status: "cancelled" },
+    { new: true }
+  );
+  return result;
+};
+
+// approve bookings
+const approveBookingsFromDB = async (id: string) => {
+  const result = Booking.findByIdAndUpdate(id, {
+    isBooked: "confirmed",
+    status: "confirmed",
+  });
+  return result;
+};
+
+// booking confirmed Cars
+
+const getAllConfirmBookingFromDB = async () => {
+  const result = await Booking.find({ isBooked: "confirmed" })
+    .populate("user")
+    .populate("carId");
   return result;
 };
 
@@ -62,4 +118,7 @@ export const BookingServices = {
   getAllBookedFromDB,
   getUserBooking,
   cancelBookingOrDeleteBooking,
+  cancelABookingFromAdminSideDB,
+  approveBookingsFromDB,
+  getAllConfirmBookingFromDB,
 };

@@ -21,6 +21,20 @@ router.get(
   auth(USER_Role.user),
   BookingControllers.getUserBooking
 );
+
+// confirm booking cars
+router.get("/", auth(USER_Role.admin), BookingControllers.getAllConfirmBooking);
+router.patch(
+  "/approve-booking/:id",
+  auth(USER_Role.admin),
+  BookingControllers.approveBooking
+);
+
 router.delete("/:id", auth(USER_Role.user), BookingControllers.cancelBooking);
+router.delete(
+  "/cancel-booking/:id",
+  auth(USER_Role.admin),
+  BookingControllers.cancelBookingFromAdminSide
+);
 
 export const BookingRoutes = router;
