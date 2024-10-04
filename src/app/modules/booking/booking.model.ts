@@ -46,6 +46,10 @@ const bookingSchema = new Schema<TBooking>(
       enum: ["unconfirmed", "confirmed"],
       default: "unconfirmed",
     },
+    isReturned: {
+      type: Boolean,
+      default: false,
+    },
     payment: { type: bookingFormSchema },
   },
   {

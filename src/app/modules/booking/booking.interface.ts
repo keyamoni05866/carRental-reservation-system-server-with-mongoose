@@ -10,7 +10,6 @@ export type TBookingForm = {
 };
 
 export type TBooking = {
-  date?: string;
   user?: Types.ObjectId;
   carId?: Types.ObjectId;
   totalCost?: number;
@@ -19,5 +18,6 @@ export type TBooking = {
   transactionId?: string;
   endTime?: string;
   isBooked?: "unconfirmed" | "confirmed";
+  isReturned?: boolean;
   payment: TBookingForm;
 };

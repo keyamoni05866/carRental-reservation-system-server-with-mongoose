@@ -59,6 +59,25 @@ const getUserBooking = catchAsync(async (req, res) => {
     });
   }
 });
+const getUserCarReturnedBooking = catchAsync(async (req, res) => {
+  const result = await BookingServices.getUserReturnBooking(req.user);
+
+  if (result) {
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "My Bookings retrieved successfully",
+      data: result,
+    });
+  } else {
+    res.status(404).json({
+      success: true,
+      statusCode: 404,
+      message: "No Data Found",
+      data: [],
+    });
+  }
+});
 
 const cancelBooking = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -141,6 +160,29 @@ const getAllConfirmBooking = catchAsync(async (req, res) => {
   }
 });
 
+const returnCar = catchAsync(async (req, res) => {
+  // console.log(req.body);
+
+  // const { bookingId: id } = req.body;
+  const result = await BookingServices.returnCarFromDB(req.body);
+
+  if (result) {
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Car Returned Successful",
+      data: result,
+    });
+  } else {
+    res.status(404).json({
+      success: true,
+      statusCode: 404,
+      message: "No Data Found",
+      data: [],
+    });
+  }
+});
+
 export const BookingControllers = {
   createBooking,
   getAllBooking,
@@ -149,4 +191,6 @@ export const BookingControllers = {
   cancelBookingFromAdminSide,
   approveBooking,
   getAllConfirmBooking,
+  returnCar,
+  getUserCarReturnedBooking,
 };

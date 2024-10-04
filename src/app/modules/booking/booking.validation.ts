@@ -24,18 +24,7 @@ const bookingValidationSchema = z.object({
     endTime: timeSchema.optional(),
     totalCost: z.number().optional(),
     isBooked: z.enum(["unconfirmed", "confirmed"]).optional(),
-    payment: BookingFormSchema,
-  }),
-});
-const updateBookingValidationSchema = z.object({
-  body: z.object({
-    user: z.string().optional(),
-    carId: z.string(),
-    date: z.string().optional(),
-    startTime: timeSchema.optional(),
-    endTime: timeSchema.optional(),
-    totalCost: z.number().optional(),
-    isBooked: z.enum(["unconfirmed", "confirmed"]).optional(),
+    isReturned: z.boolean().default(false).optional(),
     payment: BookingFormSchema,
   }),
 });

@@ -21,9 +21,21 @@ router.get(
   auth(USER_Role.user),
   BookingControllers.getUserBooking
 );
+router.get(
+  "/my-bookings-afterReturn",
+  auth(USER_Role.user),
+  BookingControllers.getUserCarReturnedBooking
+);
 
 // confirm booking cars
-router.get("/", auth(USER_Role.admin), BookingControllers.getAllConfirmBooking);
+router.get(
+  "/confirm-bookings",
+  auth(USER_Role.admin),
+  BookingControllers.getAllConfirmBooking
+);
+
+router.put("/return", auth(USER_Role.admin), BookingControllers.returnCar);
+
 router.patch(
   "/approve-booking/:id",
   auth(USER_Role.admin),

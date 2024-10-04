@@ -4,6 +4,9 @@ import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { User } from "../user/user.model";
 import { Car } from "../car/car.model";
+import mongoose from "mongoose";
+import AppError from "../../errors/AppError";
+import { calculateTotalDurationOfTime } from "./booking.util";
 
 const createBookingIntoDB = async (
   payload: TBooking,
@@ -46,6 +49,16 @@ const getUserBooking = async (authorizedUser: JwtPayload) => {
 
   const user = await User.findOne({ email });
   const result = await Booking.find({ user })
+    .populate("user")
+    .populate("carId");
+  return result;
+};
+//get user's booking
+const getUserReturnBooking = async (authorizedUser: JwtPayload) => {
+  const email = authorizedUser.email;
+
+  const user = await User.findOne({ email });
+  const result = await Booking.find({ user, isReturned: true })
     .populate("user")
     .populate("carId");
   return result;
@@ -113,6 +126,71 @@ const getAllConfirmBookingFromDB = async () => {
   return result;
 };
 
+// Management Return A car
+const returnCarFromDB = async (payload: Record<string, unknown>) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    const { booking, endTime } = payload as {
+      booking: any;
+      endTime: string;
+    };
+    const bookingId = booking?._id;
+    const getBooking = await Booking.findById({ _id: bookingId }).session(
+      session
+    );
+    if (!getBooking) {
+      throw new AppError(404, "Booking Not Found");
+    }
+    const startTime = getBooking.payment.startTime;
+    const { carId } = getBooking;
+    const startDateAndTime = new Date(startTime);
+    const endDateAndTime = new Date(endTime);
+
+    const getCar = await Car.findByIdAndUpdate(
+      { _id: carId },
+      { status: "available" },
+      { new: true, runValidators: true, session }
+    );
+
+    if (!getCar) {
+      throw new AppError(404, "Car Not Found");
+    }
+
+    const { pricePerHour } = getCar;
+    const getTotalCost = calculateTotalDurationOfTime(
+      startDateAndTime.toISOString(),
+      endDateAndTime.toISOString(),
+      pricePerHour
+    );
+
+    const updateIsReturn = await Booking.findByIdAndUpdate(
+      { _id: bookingId },
+      { isReturned: true },
+      { new: true, runValidators: true, session }
+    );
+    await updateIsReturn?.save();
+    payload.totalCost = getTotalCost?.toFixed(2);
+
+    const result = await Booking.findByIdAndUpdate(bookingId, payload, {
+      new: true,
+      runValidators: true,
+      session,
+    })
+      .populate("carId")
+      .populate("user");
+
+    await session.commitTransaction();
+    await session.endSession();
+    return result;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookedFromDB,
@@ -121,4 +199,6 @@ export const BookingServices = {
   cancelABookingFromAdminSideDB,
   approveBookingsFromDB,
   getAllConfirmBookingFromDB,
+  returnCarFromDB,
+  getUserReturnBooking,
 };
