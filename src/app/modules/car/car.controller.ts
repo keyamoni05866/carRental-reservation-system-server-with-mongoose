@@ -157,27 +157,6 @@ const deleteCar = catchAsync(async (req, res) => {
   }
 });
 
-//return the car
-
-const returnCar = catchAsync(async (req, res) => {
-  const result = await CarServices.returnTheCar(req.body);
-  if (result) {
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Car returned successfully",
-      data: result,
-    });
-  } else {
-    res.status(404).json({
-      success: true,
-      statusCode: 404,
-      message: "No Data Found",
-      data: [],
-    });
-  }
-});
-
 export const CarControllers = {
   createCar,
   getAllCar,
@@ -186,5 +165,4 @@ export const CarControllers = {
   getAllAvailableCarForBooking,
   updateACar,
   deleteCar,
-  returnCar,
 };

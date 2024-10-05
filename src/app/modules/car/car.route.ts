@@ -25,9 +25,6 @@ router.get(
 //get single get car route
 router.get("/:id", CarControllers.getSingleCar);
 
-//return the car
-router.put("/return", auth(USER_Role.admin), CarControllers.returnCar);
-
 //update car by id route
 router.patch(
   "/update-car/:id",

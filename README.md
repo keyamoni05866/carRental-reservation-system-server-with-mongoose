@@ -25,6 +25,10 @@ This is a Car Rental Reservation System management backend api creation project,
   JWT_ACCESS_EXPIRES_IN= use expiration time
   JWT_REFRESH_SECRET=use refresh secret
   JWT_REFRESH_EXPIRES_IN=use expire time
+  STORE_ID=amarpay store id
+  SIGNATURE_KEY= amarpay signature key
+  PAYMENT_URL=payment url
+  PAYMENT_VERIFY_URL=payment verify url
 
 ## Running the server
 
@@ -35,4 +39,4 @@ This is a Car Rental Reservation System management backend api creation project,
 
 ## Live Link-
 
-https://car-rental-reservatin-system.vercel.app/
+https://car-rental-reservation-server-three.vercel.app/
