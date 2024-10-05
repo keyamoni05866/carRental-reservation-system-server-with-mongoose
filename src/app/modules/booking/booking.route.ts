@@ -26,6 +26,11 @@ router.get(
   auth(USER_Role.user),
   BookingControllers.getUserCarReturnedBooking
 );
+router.get(
+  "/user-booking-history",
+  auth(USER_Role.user),
+  BookingControllers.userBookingHistory
+);
 
 // confirm booking cars
 router.get(
@@ -49,6 +54,10 @@ router.delete(
   BookingControllers.cancelBookingFromAdminSide
 );
 
-router.post("/payment", BookingControllers.paymentUpdated);
+router.post(
+  "/payment",
+  auth(USER_Role.user),
+  BookingControllers.paymentUpdated
+);
 
 export const BookingRoutes = router;

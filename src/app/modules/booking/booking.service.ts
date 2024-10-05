@@ -54,7 +54,7 @@ const getUserBooking = async (authorizedUser: JwtPayload) => {
     .populate("carId");
   return result;
 };
-//get user's booking
+//get user's returned booking
 const getUserReturnBooking = async (authorizedUser: JwtPayload) => {
   const email = authorizedUser.email;
 
@@ -217,6 +217,16 @@ const paymentUpdate = async (payload: any) => {
   return paymentSession;
 };
 
+const userBookingHistory = async (authorizedUser: JwtPayload) => {
+  const email = authorizedUser.email;
+
+  const user = await User.findOne({ email });
+  const result = await Booking.find({ user, paymentStatus: "paid" })
+    .populate("user")
+    .populate("carId");
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookedFromDB,
@@ -228,4 +238,5 @@ export const BookingServices = {
   returnCarFromDB,
   getUserReturnBooking,
   paymentUpdate,
+  userBookingHistory,
 };

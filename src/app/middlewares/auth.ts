@@ -18,18 +18,11 @@ const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
         config.jwt_access_secret as string
       ) as JwtPayload;
 
-      const { email, role } = decoded;
+      const { email } = decoded;
 
       const user = await User.findOne({ email });
       if (!user) {
         throw new AppError(401, "User Not Found");
-      }
-      if (!requiredRoles.includes(role)) {
-        res.status(401).json({
-          success: false,
-          statusCode: 401,
-          message: "You have no access to this route",
-        });
       }
       req.user = decoded as JwtPayload;
     } else {
