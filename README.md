@@ -4,38 +4,38 @@ This is a Car Rental Reservation System management backend api creation project,
 
 ## Features
 
--CRUD Operation
--Authentication with Jwt
--Data Validation with Zod
--Error Handling
--Configurable via environment variables.
+-CRUD Operation <br>
+-Authentication with Jwt <br>
+-Data Validation with Zod <br>
+-Error Handling <br>
+-Configurable via environment variables. <br>
 
 ## Steps
 
-1. Clone the Repository --- https://github.com/keyamoni05866/carRental-reservation-system-server-with-mongoose
-2. Install Dependencies. --- npm install
+1. Clone the Repository --- https://github.com/keyamoni05866/carRental-reservation-system-server-with-mongoose <br>
+2. Install Dependencies. --- npm install <br>
 3. Set up the Env variables:<br>
 
 - Create a .env file in the root directory.
 - Add the following environment variables:<br>
   PORT=5000<br>
-  DATABASE_URL= The connection string for your MongoDB database.
-  BCRYPT_SALT_ROUND=use round for password bcrypt
-  JWT_ACCESS_SECRET=use your secret
-  JWT_ACCESS_EXPIRES_IN= use expiration time
-  JWT_REFRESH_SECRET=use refresh secret
-  JWT_REFRESH_EXPIRES_IN=use expire time
-  STORE_ID=amarpay store id
-  SIGNATURE_KEY= amarpay signature key
-  PAYMENT_URL=payment url
-  PAYMENT_VERIFY_URL=payment verify url
+  DATABASE_URL= The connection string for your MongoDB database.<br>
+  BCRYPT_SALT_ROUND=use round for password bcrypt<br>
+  JWT_ACCESS_SECRET=use your secret<br>
+  JWT_ACCESS_EXPIRES_IN= use expiration time<br>
+  JWT_REFRESH_SECRET=use refresh secret<br>
+  JWT_REFRESH_EXPIRES_IN=use expire time<br>
+  STORE_ID=amarpay store id<br>
+  SIGNATURE_KEY= amarpay signature key<br>
+  PAYMENT_URL=payment url<br>
+  PAYMENT_VERIFY_URL=payment verify url<br>
 
 ## Running the server
 
 -in package.json file there is 2 scripts for run the server.example:<br>
 
-- start:prod(this is for javascript file ).
-- start:dev(this is for typescript file).
+- start:prod(this is for javascript file ).<br>
+- start:dev(this is for typescript file).<br>
 
 ## Live Link-
 
