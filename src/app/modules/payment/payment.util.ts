@@ -31,12 +31,12 @@ export const initiatePayment = async (paymentData: any) => {
     cus_phone: customerPhone,
     type: "json",
   });
-  console.log(response);
+  // console.log(response);
   return response.data;
 };
 
 export const verifyPayment = async (transactionId: string) => {
-  const response = await axios.get(config.payment_verify_url!, {
+  const res = await axios.get(config.payment_verify_url!, {
     params: {
       store_id: config.payment_store_id,
       signature_key: config.payment_signature_key,
@@ -44,4 +44,6 @@ export const verifyPayment = async (transactionId: string) => {
       request_id: transactionId,
     },
   });
+  // console.log("varify =>", res.data);
+  return res.data;
 };

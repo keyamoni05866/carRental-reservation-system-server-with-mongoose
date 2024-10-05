@@ -49,4 +49,6 @@ router.delete(
   BookingControllers.cancelBookingFromAdminSide
 );
 
+router.post("/payment", BookingControllers.paymentUpdated);
+
 export const BookingRoutes = router;

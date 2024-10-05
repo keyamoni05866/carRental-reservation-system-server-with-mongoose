@@ -183,6 +183,26 @@ const returnCar = catchAsync(async (req, res) => {
   }
 });
 
+const paymentUpdated = catchAsync(async (req, res) => {
+  const result = await BookingServices.paymentUpdate(req.body);
+
+  if (result) {
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Payment Successfully Done",
+      data: result,
+    });
+  } else {
+    res.status(404).json({
+      success: true,
+      statusCode: 404,
+      message: "No Data Found",
+      data: [],
+    });
+  }
+});
+
 export const BookingControllers = {
   createBooking,
   getAllBooking,
@@ -193,4 +213,5 @@ export const BookingControllers = {
   getAllConfirmBooking,
   returnCar,
   getUserCarReturnedBooking,
+  paymentUpdated,
 };

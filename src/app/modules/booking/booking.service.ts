@@ -7,6 +7,7 @@ import { Car } from "../car/car.model";
 import mongoose from "mongoose";
 import AppError from "../../errors/AppError";
 import { calculateTotalDurationOfTime } from "./booking.util";
+import { initiatePayment } from "../payment/payment.util";
 
 const createBookingIntoDB = async (
   payload: TBooking,
@@ -191,6 +192,31 @@ const returnCarFromDB = async (payload: Record<string, unknown>) => {
   }
 };
 
+const paymentUpdate = async (payload: any) => {
+  const getPaymentInfo = payload;
+  const totalCost = getPaymentInfo.totalCost;
+  const transactionId = `TXN-${Date.now()}`;
+  await Booking.updateOne(
+    { _id: getPaymentInfo._id },
+    {
+      user: getPaymentInfo.user,
+      bookedCar: getPaymentInfo?.carId?.name,
+      totalCost,
+      transactionId,
+    }
+  );
+  const paymentData = {
+    transactionId,
+    totalCost,
+    customerName: getPaymentInfo?.user?.name,
+    customerEmail: getPaymentInfo?.user?.email,
+    customerPhone: getPaymentInfo?.user?.phone,
+  };
+  const paymentSession = await initiatePayment(paymentData);
+  console.log(paymentSession);
+  return paymentSession;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookedFromDB,
@@ -201,4 +227,5 @@ export const BookingServices = {
   getAllConfirmBookingFromDB,
   returnCarFromDB,
   getUserReturnBooking,
+  paymentUpdate,
 };
