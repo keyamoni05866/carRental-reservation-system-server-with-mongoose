@@ -4,6 +4,7 @@ import { CarRoutes } from "../modules/car/car.route";
 import { UserRoutes } from "../modules/user/user.route";
 import { BookingRoutes } from "../modules/booking/booking.route";
 import { PaymentRoutes } from "../modules/payment/payment.route";
+import { CommentRoutes } from "../modules/comment/comment.route";
 
 const router = Router();
 
@@ -15,6 +16,10 @@ const moduleRoutes = [
   {
     path: "/cars", //here will be routes and paths
     route: CarRoutes,
+  },
+  {
+    path: "/comments", //here will be routes and paths
+    route: CommentRoutes,
   },
   {
     path: "/users", //here will be routes and paths
